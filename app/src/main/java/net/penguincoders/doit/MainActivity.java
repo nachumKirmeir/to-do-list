@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements DialogCloseListen
         setContentView(R.layout.activity_main);
 
         setKonfettiView();
-
+        Toast.makeText(this, "", Toast.LENGTH_SHORT).show();
         //make the app in english only
         Configuration configuration = new Configuration();
         configuration.locale = Locale.ENGLISH;
