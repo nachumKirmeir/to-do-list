@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Do It</string>
+    <string name="save">Save</string>
+    <string name="new_task">New Task</string>
+    <string name="mission">Mission</string>
+    <string name="return_home_page">return home page</string>
+    <string name="share_bottom">share bottom</string>
+    <string name="take_picture">Take Picture</string>
+    <string name="email">Email</string>
+    <string name="last_name">Last Name</string>
+    <string name="first_name">First Name</string>
+    <string name="your_profile">Your Profile</string>
+    <string name="recycle_bin">Recycle Bin</string>
+    <string name="profile">profile</string>
+    <string name="take_picture_from_gallery">Take Gallery Picture</string>
+</resources>
