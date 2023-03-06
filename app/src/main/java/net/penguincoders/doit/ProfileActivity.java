@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -39,7 +40,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         setContentView(R.layout.activity_profile);
 
 
-
         sp = getSharedPreferences("profile", 0);
         etFirstName = findViewById(R.id.etFirstName);
         etLastName = findViewById(R.id.etLastName);
@@ -66,6 +66,8 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         etFirstName.setText(firstName);
         etLastName.setText(lastName);
         etEmail.setText(email);
+
+        //Bitmap bitmap = ((BitmapDrawable)ivPicture.getDrawable()).getBitmap();
     }
 
     @Override
@@ -87,7 +89,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             }
             editor.apply();
             Toast.makeText(this, "The data is saved", Toast.LENGTH_SHORT).show();
-            finish();
+            endActivity();
         }
         else if(view == btnTakePicture){
             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -133,11 +135,13 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         super.onOptionsItemSelected(item);
         if(item.getItemId() == R.id.returnHomePage){
-            //finish the activity and returning to the home page
-            finish();
+            endActivity();
         }
-
         return true;
     }
-
+    public void endActivity(){
+        Intent resultIntent = new Intent();
+        setResult(RESULT_OK, resultIntent);
+        finish();
+    }
 }

@@ -1,6 +1,7 @@
 package net.penguincoders.doit;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -9,9 +10,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -53,6 +60,8 @@ public class MainActivity extends AppCompatActivity implements DialogCloseListen
 
     private KonfettiView konfettiView;
     private Shape.DrawableShape drawableShape = null;
+    private String firstName, lastName, email;
+    private Bitmap imageUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,8 +69,8 @@ public class MainActivity extends AppCompatActivity implements DialogCloseListen
         setContentView(R.layout.activity_main);
 
         setKonfettiView();
-        Toast.makeText(this, "", Toast.LENGTH_SHORT).show();
-        Toast.makeText(this, "", Toast.LENGTH_SHORT).show();        //make the app in english only
+
+        //make the app in english only
         Configuration configuration = new Configuration();
         configuration.locale = Locale.ENGLISH;
         getBaseContext().getResources().updateConfiguration(configuration, getBaseContext()
@@ -101,6 +110,7 @@ public class MainActivity extends AppCompatActivity implements DialogCloseListen
         if(getIntent().getExtras() != null){
             addNewItem();
         }
+        setDataUser();
     }
     public void addNewItem(){
         Intent intent = getIntent();
@@ -124,16 +134,20 @@ public class MainActivity extends AppCompatActivity implements DialogCloseListen
         super.onOptionsItemSelected(item);
         if(item.getItemId() == R.id.profile){
             Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
-            startActivity(intent);
+            startActivityForResult(intent, 0);
         }
         else if(item.getItemId() == R.id.shareProfile){
+            //this convert put the bitmap in storage and get the uri
+            String bitmapPath = MediaStore.Images.Media.insertImage(getContentResolver(), imageUser, "Image Of TheUser", null);
+            Uri bitmapUri = Uri.parse(bitmapPath);
+
             Intent myIntent = new Intent (Intent.ACTION_SEND);
-            myIntent. setType ("text/plain");
+            myIntent.setType("image/*");
             String shareBody = printMission();
-            String shareSubject = "Your Mission";
-            myIntent. putExtra (Intent.EXTRA_SUBJECT, shareSubject) ;
-            myIntent.putExtra (Intent. EXTRA_TEXT, shareBody);
-            startActivity(Intent.createChooser(myIntent, "Share using"));
+            myIntent.putExtra(Intent.EXTRA_SUBJECT, "Missions");
+            myIntent.putExtra(Intent.EXTRA_TEXT, shareBody);
+            myIntent.putExtra(Intent.EXTRA_STREAM, bitmapUri);
+            startActivity(Intent.createChooser(myIntent, "Share image using"));
         }
         else if(item.getItemId() == R.id.recycleBin) {
             Intent intent = new Intent(this, RecycleBin.class);
@@ -141,9 +155,18 @@ public class MainActivity extends AppCompatActivity implements DialogCloseListen
         }
         return true;
     }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 0 && resultCode == RESULT_OK){
+            setDataUser();
+        }
+    }
     //this function will create the string with all the tasks
     public String printMission(){
         StringBuilder text = new StringBuilder();
+        text.append("User Name: ").append(firstName).append(" ").append(lastName).append("\n");
+        text.append("Email: ").append(email).append("\n");
         List<ToDoModel> listMission = this.taskList;
         for(int i = 1; i < listMission.size() + 1; i++){
             ToDoModel toDoModel = listMission.get(i - 1);
@@ -155,7 +178,6 @@ public class MainActivity extends AppCompatActivity implements DialogCloseListen
     @Override
     public void handleDialogClose(DialogInterface dialog){
         this.taskList = db.getAllTasks();
-
         Collections.reverse(this.taskList);
         tasksAdapter.setTasks(taskList);
     }
@@ -165,18 +187,17 @@ public class MainActivity extends AppCompatActivity implements DialogCloseListen
         intent.putExtra("status", toDoModel.getStatus());
         startActivity(intent);
     }
-    public void rain() {
-        EmitterConfig emitterConfig = new Emitter(4, TimeUnit.SECONDS).perSecond(200);
-        konfettiView.start(
-                new PartyFactory(emitterConfig)
-                        .angle(Angle.BOTTOM)
-                        .spread(Spread.ROUND)
-                        .shapes(Arrays.asList(Shape.Square.INSTANCE, Shape.Circle.INSTANCE, drawableShape))
-                        .colors(Arrays.asList(0xfce18a, 0xff726d, 0xf4306d, 0xb48def))
-                        .setSpeedBetween(0f, 15f)
-                        .position(new Position.Relative(0.0, 0.0).between(new Position.Relative(1.0, 0.0)))
-                        .build()
-        );
+    //this function will save the data of the user from the profile and set the variables with this Values
+    public void setDataUser(){
+        SharedPreferences sharedPreferencesProfile = getSharedPreferences("profile", 0);
+        firstName = sharedPreferencesProfile.getString("firstName", null);
+        lastName = sharedPreferencesProfile.getString("lastName", null);
+        email = sharedPreferencesProfile.getString("email", null);
+        String encoded = sharedPreferencesProfile.getString("picture", null);
+        if(encoded != null) {
+            byte[] imageAsBytes = Base64.decode(encoded.getBytes(), Base64.DEFAULT);
+            imageUser = BitmapFactory.decodeByteArray(imageAsBytes, 0, imageAsBytes.length);
+        }
     }
     public void setKonfettiView() {
         konfettiView = findViewById(R.id.konfettiView);
@@ -199,5 +220,18 @@ public class MainActivity extends AppCompatActivity implements DialogCloseListen
                 konfettiView.start(party);
             }
         });
+    }
+    public void rain() {
+        EmitterConfig emitterConfig = new Emitter(3, TimeUnit.SECONDS).perSecond(200);
+        konfettiView.start(
+                new PartyFactory(emitterConfig)
+                        .angle(Angle.BOTTOM)
+                        .spread(Spread.ROUND)
+                        .shapes(Arrays.asList(Shape.Square.INSTANCE, Shape.Circle.INSTANCE, drawableShape))
+                        .colors(Arrays.asList(0xfce18a, 0xff726d, 0xf4306d, 0xb48def))
+                        .setSpeedBetween(0f, 15f)
+                        .position(new Position.Relative(0.0, 0.0).between(new Position.Relative(1.0, 0.0)))
+                        .build()
+        );
     }
 }
