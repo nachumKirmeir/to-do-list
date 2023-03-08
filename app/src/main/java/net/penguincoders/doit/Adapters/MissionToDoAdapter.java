@@ -1,6 +1,7 @@
 package net.penguincoders.doit.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import net.penguincoders.doit.AddNewTask;
 import net.penguincoders.doit.MainActivity;
 import net.penguincoders.doit.Model.ToDoModel;
+import net.penguincoders.doit.NotificationService;
 import net.penguincoders.doit.R;
 import net.penguincoders.doit.Utils.MissionDatabaseHandler;
 
@@ -89,7 +91,8 @@ public class MissionToDoAdapter extends RecyclerView.Adapter<MissionToDoAdapter.
         db.deleteTask(item.getId());
         todoList.remove(position);
         notifyItemRemoved(position);
-
+        Intent intent = new Intent(getContext(), NotificationService.class);
+        activity.startService(intent);
         activity.moveItemToRecycleBin(item);
     }
 

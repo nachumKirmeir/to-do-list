@@ -67,7 +67,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         etLastName.setText(lastName);
         etEmail.setText(email);
 
-        //Bitmap bitmap = ((BitmapDrawable)ivPicture.getDrawable()).getBitmap();
     }
 
     @Override
@@ -115,7 +114,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             if(resultCode == RESULT_OK){
                 ContentResolver resolver = getContentResolver();
                 try {
-                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(resolver, data.getData());
+                    bitmap = MediaStore.Images.Media.getBitmap(resolver, data.getData());
                     ivPicture.setImageBitmap(bitmap);
                 } catch (IOException e) {
                     e.printStackTrace();
