@@ -13,19 +13,16 @@ import net.penguincoders.doit.Model.ToDoModel;
 import net.penguincoders.doit.R;
 import net.penguincoders.doit.RecycleBin;
 import net.penguincoders.doit.Utils.RecycleBinDatabaseHandler;
-import net.penguincoders.doit.RecycleBinInterface;
 
 import java.util.List;
 
 public class RecycleBinAdapter extends RecyclerView.Adapter<RecycleBinAdapter.ViewHolder1>{
 
-    private final RecycleBinInterface recycleBinInterface;
     private List<ToDoModel> todoList;
     private RecycleBinDatabaseHandler db;
     private RecycleBin activity;
 
-    public RecycleBinAdapter(RecycleBinDatabaseHandler db, RecycleBin activity, RecycleBinInterface recycleBinInterface) {
-        this.recycleBinInterface = recycleBinInterface;
+    public RecycleBinAdapter(RecycleBinDatabaseHandler db, RecycleBin activity) {
         this.db = db;
         this.activity = activity;
     }
@@ -76,30 +73,6 @@ public class RecycleBinAdapter extends RecyclerView.Adapter<RecycleBinAdapter.Vi
         ViewHolder1(View view) {
             super(view);
             task = view.findViewById(R.id.todoCheckBox);
-
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if(recycleBinInterface != null){
-                        int position = getAdapterPosition();
-                        if(position != RecyclerView.NO_POSITION){
-                            recycleBinInterface.onItemShortClick(position);
-                        }
-                    }
-                }
-            });
-            view.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View view) {
-                    if(recycleBinInterface != null){
-                        int position = getAdapterPosition();
-                        if(position != RecyclerView.NO_POSITION){
-                            recycleBinInterface.onItemLongClick(position);
-                        }
-                    }
-                    return true;
-                }
-            });
 
         }
 

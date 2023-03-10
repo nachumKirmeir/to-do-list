@@ -19,11 +19,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Base64;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -103,10 +101,10 @@ public class MainActivity extends AppCompatActivity implements DialogCloseListen
         });
 
         ItemTouchHelper itemTouchHelper =
-                new ItemTouchHelper(new RecyclerItemTouchHelper(tasksAdapter));
+                new ItemTouchHelper(new RecyclerItemTouchHelperMainList(tasksAdapter));
         itemTouchHelper.attachToRecyclerView(tasksRecyclerView);
 
-        //this intent is from the RecycleBin
+        //this intent is from the RecycleBin class
         if(getIntent().getExtras() != null){
             addNewItem();
         }

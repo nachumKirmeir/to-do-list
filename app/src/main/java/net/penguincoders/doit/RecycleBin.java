@@ -3,6 +3,7 @@ package net.penguincoders.doit;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,7 +21,7 @@ import net.penguincoders.doit.Utils.RecycleBinDatabaseHandler;
 import java.util.Collections;
 import java.util.List;
 
-public class RecycleBin extends AppCompatActivity implements RecycleBinInterface{
+public class RecycleBin extends AppCompatActivity{
 
 
     private RecycleBinDatabaseHandler db;
@@ -37,7 +38,7 @@ public class RecycleBin extends AppCompatActivity implements RecycleBinInterface
 
         tasksRecyclerView = findViewById(R.id.recycleBinRecyclerView);
         tasksRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recycleBinAdapter = new RecycleBinAdapter(db, RecycleBin.this, this);
+        recycleBinAdapter = new RecycleBinAdapter(db, RecycleBin.this);
         tasksRecyclerView.setAdapter(recycleBinAdapter);
 
         taskList = db.getAllTasks();
@@ -50,6 +51,9 @@ public class RecycleBin extends AppCompatActivity implements RecycleBinInterface
             addNewItem();
             finish();
         }
+        ItemTouchHelper itemTouchHelper =
+                new ItemTouchHelper(new RecyclerItemTouchHelperRecycleBin(recycleBinAdapter, taskList, RecycleBin.this));
+        itemTouchHelper.attachToRecyclerView(tasksRecyclerView);
     }
     public void addNewItem(){
         Intent intent = getIntent();
@@ -59,69 +63,14 @@ public class RecycleBin extends AppCompatActivity implements RecycleBinInterface
         db.insertTask(task);
     }
 
-    @Override
-    public void onItemShortClick(final int position) {
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(RecycleBin.this);
-        builder.setTitle("Delete Task Forever");
-        builder.setMessage("Are you sure you want to delete this Task Forever?");
-        builder.setCancelable(false);
-        builder.setPositiveButton("Confirm",
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        recycleBinAdapter.deleteItem(position);
-                        Toast.makeText(RecycleBin.this, "The Item Deleted Forever", Toast.LENGTH_SHORT).show();
-                    }
-                });
-        builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-        AlertDialog dialog = builder.create();
-        dialog.show();
-    }
-
-    @Override
-    public void onItemLongClick(final int position) {
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(RecycleBin.this);
-        builder.setTitle("Return Task");
-        builder.setMessage("Are You Sure You Want To Return Task To The Main List?");
-        builder.setCancelable(false);
-        builder.setPositiveButton("Confirm",
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        ToDoModel toDoModel = taskList.get(position);
-                        Intent intent  = new Intent(RecycleBin.this, MainActivity.class);
-                        intent.putExtra("task", toDoModel.getTask());
-                        intent.putExtra("status", toDoModel.getStatus());
-                        startActivity(intent);
-                        recycleBinAdapter.deleteItem(position);
-                        Toast.makeText(RecycleBin.this, "You Added The Task To Main List", Toast.LENGTH_SHORT).show();
-                        finish();
-                    }
-                });
-        builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-        AlertDialog dialog = builder.create();
-        dialog.show();
-
-    }
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.profile_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
     public boolean onOptionsItemSelected(@NonNull MenuItem item){
-        if(item.getItemId() == R.id.returnHomePage)
+        if(item.getItemId() == R.id.returnHomePage) {
             finish();
+        }
         return true;
     }
 }

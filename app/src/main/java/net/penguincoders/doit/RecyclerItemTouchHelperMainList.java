@@ -16,11 +16,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import net.penguincoders.doit.Adapters.MissionToDoAdapter;
 
-public class RecyclerItemTouchHelper extends ItemTouchHelper.SimpleCallback {
+public class RecyclerItemTouchHelperMainList extends ItemTouchHelper.SimpleCallback {
 
     private MissionToDoAdapter adapter;
 
-    public RecyclerItemTouchHelper(MissionToDoAdapter adapter) {
+    public RecyclerItemTouchHelperMainList(MissionToDoAdapter adapter) {
         super(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
         this.adapter = adapter;
     }
