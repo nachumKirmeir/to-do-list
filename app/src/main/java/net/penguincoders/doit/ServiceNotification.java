@@ -12,13 +12,16 @@ import android.os.IBinder;
 
 import androidx.core.app.NotificationCompat;
 
-public class NotificationService extends Service {
-    public NotificationService() {
+public class ServiceNotification extends Service {
+    public ServiceNotification() {
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         startForeground(1, getNotification());
+        //the Notification will exist for 10 seconds
+        FirstThread firstThread = new FirstThread();
+        firstThread.start();
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -43,8 +46,8 @@ public class NotificationService extends Service {
 
 
 
-        Intent intent = new Intent(NotificationService.this, RecycleBin.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(NotificationService.this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
+        Intent intent = new Intent(ServiceNotification.this, RecycleBin.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(ServiceNotification.this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), "M_CH_ID");
@@ -63,5 +66,20 @@ public class NotificationService extends Service {
                 .setContentText(text).build();
         notificationManager.notify(1, notification);
         return notification;
+    }
+    public class FirstThread extends Thread
+    {
+        @Override
+        public void run() {
+            super.run();
+            for(int i = 0; i < 10; i++){
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            stopSelf();
+        }
     }
 }

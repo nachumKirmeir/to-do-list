@@ -3,12 +3,12 @@ package net.penguincoders.doit.Adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import net.penguincoders.doit.AddNewTask;
 import net.penguincoders.doit.MainActivity;
 import net.penguincoders.doit.Model.ToDoModel;
-import net.penguincoders.doit.NotificationService;
+import net.penguincoders.doit.ServiceNotification;
 import net.penguincoders.doit.R;
 import net.penguincoders.doit.Utils.MissionDatabaseHandler;
 
@@ -46,27 +46,12 @@ public class MissionToDoAdapter extends RecyclerView.Adapter<MissionToDoAdapter.
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         db.openDatabase();
+        holder.setPosition(-1);
         final ToDoModel item = todoList.get(position);
         holder.task.setText(item.getTask());
         holder.task.setChecked(toBoolean(item.getStatus()));
-        //for some reason this function called even when their isn't click on the checkbox
-        holder.task.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    //Toast.makeText(activity, "The Number: " + item.getId()  + "is checked " + item.getStatus(), Toast.LENGTH_SHORT).show();
-                    db.updateStatus(item.getId(), 1);
-                    activity.rain();
-                    item.setStatus(1);
-                } else {
-                    //Toast.makeText(activity, "The Number: " + item.getId()+ " unchecked", Toast.LENGTH_SHORT).show();
-                    db.updateStatus(item.getId(), 0);
-                    item.setStatus(0);
-                }
-            }
-        });
+        holder.setPosition(position);
     }
-
     private boolean toBoolean(int n) {
         return n != 0;
     }
@@ -91,7 +76,7 @@ public class MissionToDoAdapter extends RecyclerView.Adapter<MissionToDoAdapter.
         db.deleteTask(item.getId());
         todoList.remove(position);
         notifyItemRemoved(position);
-        Intent intent = new Intent(getContext(), NotificationService.class);
+        Intent intent = new Intent(getContext(), ServiceNotification.class);
         activity.startService(intent);
         activity.moveItemToRecycleBin(item);
     }
@@ -111,12 +96,33 @@ public class MissionToDoAdapter extends RecyclerView.Adapter<MissionToDoAdapter.
         Collections.reverse(this.todoList);
         notifyDataSetChanged();
     }
-
     public class ViewHolder extends RecyclerView.ViewHolder {
         CheckBox task;
+        int position;
+
         ViewHolder(View view) {
             super(view);
+            position = -1;
             task = view.findViewById(R.id.todoCheckBox);
+            task.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                    if(position != -1){
+                        ToDoModel item = todoList.get(position);
+                        if (b) {
+                            db.updateStatus(item.getId(), 1);
+                            activity.rain();
+                            item.setStatus(1);
+                        } else {
+                            db.updateStatus(item.getId(), 0);
+                            item.setStatus(0);
+                        }
+                    }
+                }
+            });
+        }
+        public void setPosition(int position) {
+            this.position = position;
         }
     }
 }

@@ -8,19 +8,18 @@
     android:layout_marginHorizontal="16dp"
     android:layout_marginVertical="8dp">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:padding="8dp">
 
         <CheckBox
             android:id="@+id/todoCheckBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
             android:buttonTint="@android:color/holo_green_dark"
-            android:paddingStart="8dp"
             tools:text="Go to the market and bring vegetables immediately today." />
-    </RelativeLayout>
+    </LinearLayout>
 
 </androidx.cardview.widget.CardView>
