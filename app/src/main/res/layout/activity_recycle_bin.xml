@@ -34,7 +34,7 @@
             android:layout_marginTop="16dp"
             android:layout_below="@id/tasksText"
             android:layout_marginBottom="16dp"
-            android:text="1) If You Want To Delete An Item Click The Item\n\n2) If You Want To Return An Item To The Main List Long Click The Item"
+            android:text="1) If You Want To Delete An Item Swipe The Item To The Left\n\n2) If You Want To Return An Item To The Main List Swipe To The Right"
             android:textColor="@android:color/black"
             android:textSize="15dp"
             android:textStyle="bold" />

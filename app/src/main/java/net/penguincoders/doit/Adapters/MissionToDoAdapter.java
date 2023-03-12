@@ -75,7 +75,7 @@ public class MissionToDoAdapter extends RecyclerView.Adapter<MissionToDoAdapter.
         ToDoModel item = todoList.get(position);
         db.deleteTask(item.getId());
         todoList.remove(position);
-        notifyItemRemoved(position);
+        notifyDataSetChanged();
         Intent intent = new Intent(getContext(), ServiceNotification.class);
         activity.startService(intent);
         activity.moveItemToRecycleBin(item);

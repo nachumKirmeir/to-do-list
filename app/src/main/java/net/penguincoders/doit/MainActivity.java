@@ -174,7 +174,7 @@ public class MainActivity extends AppCompatActivity implements DialogCloseListen
         return text.toString();
     }
     @Override
-    public void handleDialogClose(DialogInterface dialog){
+    public void handleDialogClose(){
         this.taskList = db.getAllTasks();
         Collections.reverse(this.taskList);
         tasksAdapter.setTasks(taskList);
