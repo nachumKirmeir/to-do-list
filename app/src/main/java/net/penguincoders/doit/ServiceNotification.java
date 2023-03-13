@@ -38,11 +38,11 @@ public class ServiceNotification extends Service {
     }
     public Notification getNotification(){
         int icon = (int)R.drawable.ic_baseline_delete;
-        String title = "Deleted Item";
+        String title = "You Deleted An Item";
         String ticket = "this is ticket message";
         long when = System.currentTimeMillis();
         String ticker = "ticker";
-        String text="Click To Return The Item From The Recycle Bin";
+        String text="You Can Always Return The Item From The Recycle Bin";
 
 
 
