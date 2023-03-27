@@ -73,8 +73,9 @@ public class RecycleBinAdapter extends RecyclerView.Adapter<RecycleBinAdapter.Vi
         ViewHolder1(View view) {
             super(view);
             task = view.findViewById(R.id.todoCheckBox);
-
+            //in the recycle the user should not be able to edit the item
+            task.setClickable(false);
+            task.setFocusable(false);
         }
-
     }
 }

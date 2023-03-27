@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.Filter;
+import android.widget.Filterable;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,10 +22,11 @@ import net.penguincoders.doit.ServiceNotification;
 import net.penguincoders.doit.R;
 import net.penguincoders.doit.Utils.MissionDatabaseHandler;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class MissionToDoAdapter extends RecyclerView.Adapter<MissionToDoAdapter.ViewHolder> {
+public class MissionToDoAdapter extends RecyclerView.Adapter<MissionToDoAdapter.ViewHolder> implements Filterable {
 
     private List<ToDoModel> todoList;
     private MissionDatabaseHandler db;
@@ -125,4 +128,36 @@ public class MissionToDoAdapter extends RecyclerView.Adapter<MissionToDoAdapter.
             this.position = position;
         }
     }
+    @Override
+    public Filter getFilter() {
+        return exampleFilter;
+    }
+    private Filter exampleFilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence charSequence) {
+            ArrayList<ToDoModel> arrayListAfterSearch = new ArrayList<>();
+            ArrayList<ToDoModel> fullList = new ArrayList<ToDoModel>(db.getAllTasks());
+            if(charSequence == null || charSequence.length() == 0)
+                arrayListAfterSearch.addAll(fullList);
+            else {
+                String text = charSequence.toString().toString().toLowerCase().trim();
+                for(ToDoModel item: fullList){
+                    if(item.getTask().toLowerCase().trim().contains(text))
+                        arrayListAfterSearch.add(item);
+                }
+            }
+            FilterResults results = new FilterResults();
+            results.values = arrayListAfterSearch;
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+            ArrayList<ToDoModel> newList = new ArrayList<>((List)filterResults.values);
+            Collections.reverse(newList);
+            todoList.clear();
+            todoList.addAll(newList);
+            notifyDataSetChanged();
+        }
+    };
 }

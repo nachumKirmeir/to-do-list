@@ -12,12 +12,19 @@
         android:title="@string/recycle_bin"
         android:icon="@android:drawable/ic_menu_share"
         android:id="@+id/shareProfile"
-        app:showAsAction="ifRoom"
+        app:showAsAction="always"
         />
     <item
         android:title="@string/share_bottom"
         android:icon="@drawable/ic_baseline_delete"
         android:id="@+id/recycleBin"
         app:showAsAction="always"
+        />
+    <item
+        android:id="@+id/action_search"
+        android:icon="@drawable/ic_baseline_search_24"
+        android:title="@string/search"
+        app:showAsAction="always"
+        app:actionViewClass="android.widget.SearchView"
         />
 </menu>

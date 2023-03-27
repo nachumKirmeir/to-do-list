@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -22,6 +21,10 @@ import android.util.Base64;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.Filter;
+import android.widget.Filterable;
+import android.widget.SearchView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -29,6 +32,7 @@ import net.penguincoders.doit.Adapters.MissionToDoAdapter;
 import net.penguincoders.doit.Model.ToDoModel;
 import net.penguincoders.doit.Utils.MissionDatabaseHandler;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -46,7 +50,7 @@ import nl.dionsegijn.konfetti.core.models.Shape;
 import nl.dionsegijn.konfetti.core.models.Size;
 import nl.dionsegijn.konfetti.xml.KonfettiView;
 
-public class MainActivity extends AppCompatActivity implements DialogCloseListener{
+public class MainActivity extends AppCompatActivity implements DialogCloseListener {
 
     private MissionDatabaseHandler db;
 
@@ -124,6 +128,23 @@ public class MainActivity extends AppCompatActivity implements DialogCloseListen
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
+
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+        searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                tasksAdapter.getFilter().filter(s);
+                return false;
+            }
+        });
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -201,7 +222,6 @@ public class MainActivity extends AppCompatActivity implements DialogCloseListen
         konfettiView = findViewById(R.id.konfettiView);
         final Drawable drawable = ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_heart);
         drawableShape = new Shape.DrawableShape(drawable, true);
-        konfettiView = findViewById(R.id.konfettiView);
         EmitterConfig emitterConfig = new Emitter(5L, TimeUnit.SECONDS).perSecond(50);
         final Party party = new PartyFactory(emitterConfig)
                 .angle(270)
@@ -212,12 +232,6 @@ public class MainActivity extends AppCompatActivity implements DialogCloseListen
                 .sizes(new Size(12, 5f, 0.2f))
                 .position(0.0, 0.0, 1.0, 0.0)
                 .build();
-        konfettiView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                konfettiView.start(party);
-            }
-        });
     }
     public void rain() {
         EmitterConfig emitterConfig = new Emitter(3, TimeUnit.SECONDS).perSecond(200);

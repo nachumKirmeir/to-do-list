@@ -13,4 +13,5 @@
     <string name="recycle_bin">Recycle Bin</string>
     <string name="profile">profile</string>
     <string name="take_picture_from_gallery">Take Gallery Picture</string>
+    <string name="search">Search</string>
 </resources>

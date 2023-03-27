@@ -10,6 +10,7 @@
         <entry key="app/src/main/res/drawable/ic_baseline_delete.xml" value="0.1045" />
         <entry key="app/src/main/res/drawable/ic_baseline_edit.xml" value="0.1045" />
         <entry key="app/src/main/res/drawable/ic_baseline_keyboard_return_24.xml" value="0.2135" />
+        <entry key="app/src/main/res/drawable/ic_baseline_search_24.xml" value="0.24" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.1045" />
         <entry key="app/src/main/res/drawable/main_background.xml" value="0.2065" />
         <entry key="app/src/main/res/drawable/my_button_background.xml" value="0.2325" />
@@ -23,7 +24,7 @@
         <entry key="app/src/main/res/layout/task_layout.xml" value="0.39166666666666666" />
         <entry key="app/src/main/res/layout/tool_bar.xml" value="0.39166666666666666" />
         <entry key="app/src/main/res/menu-v26/main_menu.xml" value="0.39166666666666666" />
-        <entry key="app/src/main/res/menu/main_menu.xml" value="0.25" />
+        <entry key="app/src/main/res/menu/main_menu.xml" value="0.1" />
         <entry key="app/src/main/res/menu/manu_for_profile.xml" value="0.20625" />
         <entry key="app/src/main/res/menu/profile_menu.xml" value="0.39166666666666666" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.24" />
