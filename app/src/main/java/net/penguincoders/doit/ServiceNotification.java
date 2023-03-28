@@ -13,6 +13,7 @@ import android.os.IBinder;
 import androidx.core.app.NotificationCompat;
 
 public class ServiceNotification extends Service {
+
     public ServiceNotification() {
     }
 
@@ -43,8 +44,6 @@ public class ServiceNotification extends Service {
         long when = System.currentTimeMillis();
         String ticker = "ticker";
         String text="You Can Always Return The Item From The Recycle Bin";
-
-
 
         Intent intent = new Intent(ServiceNotification.this, RecycleBin.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(ServiceNotification.this, 0, intent, PendingIntent.FLAG_IMMUTABLE);

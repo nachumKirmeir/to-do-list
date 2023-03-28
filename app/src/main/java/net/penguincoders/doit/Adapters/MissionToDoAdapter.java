@@ -11,6 +11,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -99,7 +100,7 @@ public class MissionToDoAdapter extends RecyclerView.Adapter<MissionToDoAdapter.
         Collections.reverse(this.todoList);
         notifyDataSetChanged();
     }
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder{
         CheckBox task;
         int position;
 
@@ -123,10 +124,12 @@ public class MissionToDoAdapter extends RecyclerView.Adapter<MissionToDoAdapter.
                     }
                 }
             });
+            
         }
         public void setPosition(int position) {
             this.position = position;
         }
+
     }
     @Override
     public Filter getFilter() {
