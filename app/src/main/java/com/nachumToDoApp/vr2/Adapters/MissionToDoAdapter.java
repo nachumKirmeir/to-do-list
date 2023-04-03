@@ -1,9 +1,8 @@
-package net.penguincoders.doit.Adapters;
+package com.nachumToDoApp.vr2.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,17 +10,16 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.Filter;
 import android.widget.Filterable;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import net.penguincoders.doit.AddNewTask;
-import net.penguincoders.doit.MainActivity;
-import net.penguincoders.doit.Model.ToDoModel;
-import net.penguincoders.doit.ServiceNotification;
-import net.penguincoders.doit.R;
-import net.penguincoders.doit.Utils.MissionDatabaseHandler;
+import com.nachumToDoApp.vr2.AddNewTaskFragment;
+import com.nachumToDoApp.vr2.MainActivity;
+import com.nachumToDoApp.vr2.Model.ToDoModel;
+import com.nachumToDoApp.vr2.ServiceNotification;
+import com.nachumToDoApp.vr2.R;
+import com.nachumToDoApp.vr2.Utils.MissionDatabaseHandler;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -90,9 +88,9 @@ public class MissionToDoAdapter extends RecyclerView.Adapter<MissionToDoAdapter.
         Bundle bundle = new Bundle();
         bundle.putInt("id", item.getId());
         bundle.putString("task", item.getTask());
-        AddNewTask fragment = new AddNewTask();
+        AddNewTaskFragment fragment = new AddNewTaskFragment();
         fragment.setArguments(bundle);
-        fragment.show(activity.getSupportFragmentManager(), AddNewTask.TAG);
+        fragment.show(activity.getSupportFragmentManager(), AddNewTaskFragment.TAG);
     }
     public void update(){
         db.openDatabase();

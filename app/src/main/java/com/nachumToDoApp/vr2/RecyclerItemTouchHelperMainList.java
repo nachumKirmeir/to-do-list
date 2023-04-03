@@ -1,11 +1,10 @@
-package net.penguincoders.doit;
+package com.nachumToDoApp.vr2;
 
 import android.content.DialogInterface;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -14,7 +13,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
-import net.penguincoders.doit.Adapters.MissionToDoAdapter;
+import com.nachumToDoApp.vr2.Adapters.MissionToDoAdapter;
 
 public class RecyclerItemTouchHelperMainList extends ItemTouchHelper.SimpleCallback {
 

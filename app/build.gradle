@@ -4,7 +4,7 @@ android {
     compileSdkVersion 32
 
     defaultConfig {
-        applicationId "net.penguincoders.doit"
+        applicationId "com.nachumToDoApp.vr2"
         minSdkVersion 23
         targetSdkVersion 32
         versionCode 1

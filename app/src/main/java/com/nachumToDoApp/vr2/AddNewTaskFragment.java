@@ -1,4 +1,4 @@
-package net.penguincoders.doit;
+package com.nachumToDoApp.vr2;
 
 import android.app.Activity;
 import android.content.DialogInterface;
@@ -20,12 +20,12 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
-import net.penguincoders.doit.Model.ToDoModel;
-import net.penguincoders.doit.Utils.MissionDatabaseHandler;
+import com.nachumToDoApp.vr2.Model.ToDoModel;
+import com.nachumToDoApp.vr2.Utils.MissionDatabaseHandler;
 
 import java.util.Objects;
 
-public class AddNewTask extends BottomSheetDialogFragment {
+public class AddNewTaskFragment extends BottomSheetDialogFragment {
 
     public static final String TAG = "ActionBottomDialog";
     private EditText newTaskText;
@@ -33,8 +33,8 @@ public class AddNewTask extends BottomSheetDialogFragment {
 
     private MissionDatabaseHandler db;
 
-    public static AddNewTask newInstance(){
-        return new AddNewTask();
+    public static AddNewTaskFragment newInstance(){
+        return new AddNewTaskFragment();
     }
 
     @Override
@@ -66,9 +66,10 @@ public class AddNewTask extends BottomSheetDialogFragment {
             isTheCallUpdate = true;
             String task = bundle.getString("task");
             newTaskText.setText(task);
-            assert task != null;
-            if(task.length()>0)
-                newTaskSaveButton.setTextColor(ContextCompat.getColor(Objects.requireNonNull(getContext()), R.color.colorPrimaryDark));
+            if(task != null) {
+                if (task.length() > 0)
+                    newTaskSaveButton.setTextColor(ContextCompat.getColor(Objects.requireNonNull(getContext()), R.color.colorPrimaryDark));
+            }
         }
 
         db = new MissionDatabaseHandler(getActivity());
@@ -120,7 +121,7 @@ public class AddNewTask extends BottomSheetDialogFragment {
 
     @Override
     public void onDismiss(@NonNull DialogInterface dialog){
-        Fragment fragment = getFragmentManager().findFragmentByTag(AddNewTask.TAG);
+        Fragment fragment = getFragmentManager().findFragmentByTag(AddNewTaskFragment.TAG);
         if (fragment != null) {
             getFragmentManager().beginTransaction().remove(fragment).commit();
         }

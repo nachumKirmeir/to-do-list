@@ -1,4 +1,4 @@
-package net.penguincoders.doit.Utils;
+package com.nachumToDoApp.vr2.Utils;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -6,7 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import net.penguincoders.doit.Model.ToDoModel;
+import com.nachumToDoApp.vr2.Model.ToDoModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,9 +62,10 @@ public class MissionDatabaseHandler extends SQLiteOpenHelper {
                 if(cur.moveToFirst()){//check if cur not empty
                     do{
                         ToDoModel task = new ToDoModel();
-                        task.setId(cur.getInt(cur.getColumnIndex(ID)));
-                        task.setTask(cur.getString(cur.getColumnIndex(TASK)));
-                        task.setStatus(cur.getInt(cur.getColumnIndex(STATUS)));
+                        int id = cur.getColumnIndex(ID), taskString = cur.getColumnIndex(TASK), status = cur.getColumnIndex(STATUS);
+                        task.setId(cur.getInt(id));
+                        task.setTask(cur.getString(taskString));
+                        task.setStatus(cur.getInt(status));
                         taskList.add(task);
                     }
                     while(cur.moveToNext());

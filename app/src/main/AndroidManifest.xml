@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="net.penguincoders.doit">
+    package="com.nachumToDoApp.vr2">
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <application
         android:allowBackup="true"
@@ -10,24 +10,24 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <service
-            android:name=".ServiceNotification"
+            android:name="com.nachumToDoApp.vr2.ServiceNotification"
             android:enabled="true"
             android:exported="true" />
 
         <activity
-            android:name=".RecycleBin"
+            android:name="com.nachumToDoApp.vr2.RecycleBin"
             android:exported="false" />
         <activity
-            android:name=".ProfileActivity"
+            android:name="com.nachumToDoApp.vr2.ProfileActivity"
             android:exported="false" />
-        <activity android:name=".SplashActivity"
+        <activity android:name="com.nachumToDoApp.vr2.SplashActivity"
             android:exported="true">
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity" />
+        <activity android:name="com.nachumToDoApp.vr2.MainActivity" />
     </application>
 
 </manifest>

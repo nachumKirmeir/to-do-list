@@ -1,4 +1,4 @@
-package net.penguincoders.doit;
+package com.nachumToDoApp.vr2;
 
 import android.app.Activity;
 import android.content.DialogInterface;
@@ -16,9 +16,8 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
-import net.penguincoders.doit.Adapters.MissionToDoAdapter;
-import net.penguincoders.doit.Adapters.RecycleBinAdapter;
-import net.penguincoders.doit.Model.ToDoModel;
+import com.nachumToDoApp.vr2.Adapters.RecycleBinAdapter;
+import com.nachumToDoApp.vr2.Model.ToDoModel;
 
 import java.util.List;
 

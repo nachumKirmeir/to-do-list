@@ -1,4 +1,4 @@
-package net.penguincoders.doit;
+package com.nachumToDoApp.vr2;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,17 +22,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.widget.Filter;
-import android.widget.Filterable;
 import android.widget.SearchView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import net.penguincoders.doit.Adapters.MissionToDoAdapter;
-import net.penguincoders.doit.Model.ToDoModel;
-import net.penguincoders.doit.Utils.MissionDatabaseHandler;
+import com.nachumToDoApp.vr2.Adapters.MissionToDoAdapter;
+import com.nachumToDoApp.vr2.Model.ToDoModel;
+import com.nachumToDoApp.vr2.Utils.MissionDatabaseHandler;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -100,7 +97,7 @@ public class MainActivity extends AppCompatActivity implements DialogCloseListen
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AddNewTask.newInstance().show(getSupportFragmentManager(), AddNewTask.TAG);
+                AddNewTaskFragment.newInstance().show(getSupportFragmentManager(), AddNewTaskFragment.TAG);
             }
         });
 

@@ -1,22 +1,19 @@
-package net.penguincoders.doit;
+package com.nachumToDoApp.vr2;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
-import net.penguincoders.doit.Adapters.RecycleBinAdapter;
-import net.penguincoders.doit.Model.ToDoModel;
-import net.penguincoders.doit.Utils.RecycleBinDatabaseHandler;
+import com.nachumToDoApp.vr2.Adapters.RecycleBinAdapter;
+import com.nachumToDoApp.vr2.Model.ToDoModel;
+import com.nachumToDoApp.vr2.Utils.RecycleBinDatabaseHandler;
 
 import java.util.Collections;
 import java.util.List;

@@ -1,4 +1,4 @@
-package net.penguincoders.doit.Adapters;
+package com.nachumToDoApp.vr2.Adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,10 +9,10 @@ import android.widget.CheckBox;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import net.penguincoders.doit.Model.ToDoModel;
-import net.penguincoders.doit.R;
-import net.penguincoders.doit.RecycleBin;
-import net.penguincoders.doit.Utils.RecycleBinDatabaseHandler;
+import com.nachumToDoApp.vr2.Model.ToDoModel;
+import com.nachumToDoApp.vr2.R;
+import com.nachumToDoApp.vr2.RecycleBin;
+import com.nachumToDoApp.vr2.Utils.RecycleBinDatabaseHandler;
 
 import java.util.List;
 
