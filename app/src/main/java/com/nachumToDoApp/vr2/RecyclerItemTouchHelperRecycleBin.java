@@ -108,7 +108,7 @@ public class RecyclerItemTouchHelperRecycleBin extends ItemTouchHelper.SimpleCal
             icon = ContextCompat.getDrawable(adapter.getContext(), R.drawable.ic_baseline_add_24);
             background = new ColorDrawable(ContextCompat.getColor(adapter.getContext(), R.color.design_default_color_secondary));
         } else {//swipe left delete
-            icon = ContextCompat.getDrawable(adapter.getContext(), R.drawable.ic_baseline_delete);
+            icon = ContextCompat.getDrawable(adapter.getContext(), R.drawable.ic_baseline_delete_forever_24);
             background = new ColorDrawable(Color.RED);
         }
 
