@@ -11,17 +11,21 @@
         <entry key="app/src/main/res/drawable/ic_baseline_delete_forever_24.xml" value="0.228" />
         <entry key="app/src/main/res/drawable/ic_baseline_edit.xml" value="0.1045" />
         <entry key="app/src/main/res/drawable/ic_baseline_keyboard_return_24.xml" value="0.2135" />
+        <entry key="app/src/main/res/drawable/ic_baseline_menu_24.xml" value="0.2135" />
         <entry key="app/src/main/res/drawable/ic_baseline_search_24.xml" value="0.24" />
+        <entry key="app/src/main/res/drawable/ic_heart.xml" value="0.2135" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.1045" />
         <entry key="app/src/main/res/drawable/main_background.xml" value="0.2065" />
         <entry key="app/src/main/res/drawable/my_button_background.xml" value="0.2325" />
         <entry key="app/src/main/res/drawable/qqqqq123123.xml" value="0.2065" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.375" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.335" />
         <entry key="app/src/main/res/layout/activity_profile.xml" value="0.33413461538461536" />
         <entry key="app/src/main/res/layout/activity_recycle_bin.xml" value="0.39166666666666666" />
         <entry key="app/src/main/res/layout/activity_splash.xml" value="0.39166666666666666" />
+        <entry key="app/src/main/res/layout/header.xml" value="0.39166666666666666" />
         <entry key="app/src/main/res/layout/new_task.xml" value="0.39166666666666666" />
         <entry key="app/src/main/res/layout/o9.xml" value="0.39166666666666666" />
+        <entry key="app/src/main/res/layout/search_view_layout.xml" value="0.20625" />
         <entry key="app/src/main/res/layout/task_layout.xml" value="0.39166666666666666" />
         <entry key="app/src/main/res/layout/tool_bar.xml" value="0.39166666666666666" />
         <entry key="app/src/main/res/menu-v26/main_menu.xml" value="0.39166666666666666" />

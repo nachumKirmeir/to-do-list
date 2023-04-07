@@ -4,11 +4,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Base64;
@@ -54,12 +56,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         String email = sp.getString("email", null);
 
         //get string bitmap and encoded to bitmap
-        String encoded = sp.getString("picture", null);
-        if(encoded != null) {
-            byte[] imageAsBytes = Base64.decode(encoded.getBytes(), Base64.DEFAULT);
-            bitmap = BitmapFactory.decodeByteArray(imageAsBytes, 0, imageAsBytes.length);
-            ivPicture.setImageBitmap(bitmap);
-        }
+        uploadedImage();
         etFirstName.setText(firstName);
         etLastName.setText(lastName);
         etEmail.setText(email);
@@ -69,23 +66,57 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     public void onClick(View view) {
         if(view == btnSave){
-            SharedPreferences.Editor editor = sp.edit();
-            editor.putString("firstName", etFirstName.getText().toString());
-            editor.putString("lastName", etLastName.getText().toString());
-            editor.putString("email", etEmail.getText().toString());
 
             //this code save the bitmap. the SharedPreferences cant get complex object like bitmap
             // so i convert this object to string
             if(bitmap != null){
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
-                byte[] b = baos.toByteArray();
-                String encoded = Base64.encodeToString(b, Base64.DEFAULT);
-                editor.putString("picture", encoded);
+                // Show a progress dialog to the user
+                final ProgressDialog progressDialog = ProgressDialog.show(this, "Saving", "Please wait...", true);
+
+                // Use an AsyncTask to perform the image compression and encoding process in the background
+                new AsyncTask<Bitmap, Void, String>() {
+                    @Override
+                    protected String doInBackground(Bitmap... bitmaps) {
+                        Bitmap bitmap = bitmaps[0];
+                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+                        byte[] b = baos.toByteArray();
+                        String encoded = Base64.encodeToString(b, Base64.DEFAULT);
+                        return encoded;
+                    }
+
+                    @Override
+                    protected void onPostExecute(String encoded) {
+                        // Hide the progress dialog
+                        progressDialog.dismiss();
+
+                        // Save the encoded image string to SharedPreferences
+                        SharedPreferences.Editor editor = sp.edit();
+                        editor.putString("picture", encoded);
+                        editor.apply();
+
+                        // Show a toast message to the user
+                        Toast.makeText(getApplicationContext(), "The data is saved", Toast.LENGTH_SHORT).show();
+
+                        // End the activity
+                        endActivity();
+                    }
+                }.execute(bitmap);
             }
-            editor.apply();
-            Toast.makeText(this, "The data is saved", Toast.LENGTH_SHORT).show();
-            endActivity();
+            else {
+                // If the bitmap is null, just save the other data without compressing and encoding the image
+                SharedPreferences.Editor editor = sp.edit();
+                editor.putString("firstName", etFirstName.getText().toString());
+                editor.putString("lastName", etLastName.getText().toString());
+                editor.putString("email", etEmail.getText().toString());
+                editor.apply();
+
+                // Show a toast message to the user
+                Toast.makeText(this, "The data is saved", Toast.LENGTH_SHORT).show();
+
+                // End the activity
+                endActivity();
+            }
         }
         else if(view == btnTakePicture){
             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -139,5 +170,13 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         Intent resultIntent = new Intent();
         setResult(RESULT_OK, resultIntent);
         finish();
+    }
+    public void uploadedImage(){
+        String encoded = sp.getString("picture", null);
+        if(encoded != null) {
+            byte[] imageAsBytes = Base64.decode(encoded.getBytes(), Base64.DEFAULT);
+            bitmap = BitmapFactory.decodeByteArray(imageAsBytes, 0, imageAsBytes.length);
+            ivPicture.setImageBitmap(bitmap);
+        }
     }
 }

@@ -5,26 +5,22 @@
     <item
         android:title="@string/profile"
         android:id="@+id/profile"
-        app:showAsAction="always"
         android:icon="@drawable/ic_baseline_assignment_ind_24"
         />
     <item
-        android:title="@string/recycle_bin"
+        android:title="@string/share_bottom"
         android:icon="@android:drawable/ic_menu_share"
         android:id="@+id/shareProfile"
-        app:showAsAction="always"
         />
     <item
-        android:title="@string/share_bottom"
+        android:title="@string/recycle_bin"
         android:icon="@drawable/ic_baseline_delete"
         android:id="@+id/recycleBin"
-        app:showAsAction="always"
         />
     <item
+        app:actionViewClass="android.widget.SearchView"
         android:id="@+id/action_search"
         android:icon="@drawable/ic_baseline_search_24"
         android:title="@string/search"
-        app:showAsAction="always"
-        app:actionViewClass="android.widget.SearchView"
         />
 </menu>

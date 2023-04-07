@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,16 +18,22 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
+import android.text.InputType;
 import android.util.Base64;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.ImageView;
 import android.widget.SearchView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import com.google.android.material.navigation.NavigationView;
 import com.nachumToDoApp.vr2.Adapters.MissionToDoAdapter;
 import com.nachumToDoApp.vr2.Model.ToDoModel;
 import com.nachumToDoApp.vr2.Utils.MissionDatabaseHandler;
@@ -47,7 +55,7 @@ import nl.dionsegijn.konfetti.core.models.Shape;
 import nl.dionsegijn.konfetti.core.models.Size;
 import nl.dionsegijn.konfetti.xml.KonfettiView;
 
-public class MainActivity extends AppCompatActivity implements DialogCloseListener {
+public class MainActivity extends AppCompatActivity implements DialogCloseListener, NavigationView.OnNavigationItemSelectedListener {
 
     private MissionDatabaseHandler db;
 
@@ -61,6 +69,9 @@ public class MainActivity extends AppCompatActivity implements DialogCloseListen
     private Shape.DrawableShape drawableShape = null;
     private String firstName, lastName, email;
     private Bitmap imageUser;
+    private DrawerLayout drawerLayout;
+    private ImageView imageMenu;
+    private NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,8 +83,26 @@ public class MainActivity extends AppCompatActivity implements DialogCloseListen
         //make the app in english only
         Configuration configuration = new Configuration();
         configuration.locale = Locale.ENGLISH;
+        getSupportActionBar().hide();
         getBaseContext().getResources().updateConfiguration(configuration, getBaseContext()
                 .getResources().getDisplayMetrics());
+
+        //create the drawer Layout
+        drawerLayout = findViewById(R.id.drawerLayout);
+        imageMenu = findViewById(R.id.imageMenu);
+        imageMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                drawerLayout.openDrawer(GravityCompat.START);
+                //in the navigationView there is an image view and text view for the user name
+                setNavigationViewProfile();
+                setSearchMenuOnNavigation();
+            }
+        });
+        navigationView = findViewById(R.id.navigationView);
+        navigationView.setNavigationItemSelectedListener(this);
+
+
 
         //open the database for writing and reading
         db = new MissionDatabaseHandler(this);
@@ -111,25 +140,16 @@ public class MainActivity extends AppCompatActivity implements DialogCloseListen
         }
         setDataUser();
     }
-    public void addNewItem(){
-        Intent intent = getIntent();
-        ToDoModel task = new ToDoModel();
-        task.setTask(intent.getExtras().getString("task"));
-        task.setStatus(intent.getExtras().getInt("status"));
-        db.insertTask(task);
-        this.taskList = db.getAllTasks();
-        Collections.reverse(this.taskList);
-        tasksAdapter.setTasks(taskList);
-    }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu, menu);
+    //this function will set the search menu
+    public void setSearchMenuOnNavigation(){
+        Menu menuView = navigationView.getMenu();
 
-        MenuItem searchItem = menu.findItem(R.id.action_search);
+        MenuItem searchItem = menuView.findItem(R.id.action_search);
         SearchView searchView = (SearchView) searchItem.getActionView();
-        searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
 
+        searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
+        searchView.setTextDirection(View.TEXT_DIRECTION_LTR);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
@@ -142,12 +162,31 @@ public class MainActivity extends AppCompatActivity implements DialogCloseListen
                 return false;
             }
         });
-        return super.onCreateOptionsMenu(menu);
+    }
+    //this function change the header of the NavigationView
+    private void setNavigationViewProfile() {
+        View headerView = navigationView.getHeaderView(0);
+        if(imageUser != null){
+            ImageView profileImage = headerView.findViewById(R.id.imageProfile);
+            profileImage.setImageBitmap(imageUser);
+        }
+        if(firstName != null){
+            TextView firstNameProfile = headerView.findViewById(R.id.FirstName);
+            firstNameProfile.setText(firstName);
+        }
+        if(lastName != null){
+            TextView lastNameProfile = headerView.findViewById(R.id.LastName);
+            lastNameProfile.setText(lastName);
+        }
+        if(email != null){
+            TextView email1 = headerView.findViewById(R.id.email);
+            email1.setText(email);
+        }
     }
 
     @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        super.onOptionsItemSelected(item);
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
         if(item.getItemId() == R.id.profile){
             Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
             startActivityForResult(intent, 0);
@@ -157,7 +196,7 @@ public class MainActivity extends AppCompatActivity implements DialogCloseListen
             String bitmapPath = MediaStore.Images.Media.insertImage(getContentResolver(), imageUser, "Image Of TheUser", null);
             Uri bitmapUri = Uri.parse(bitmapPath);
 
-            Intent myIntent = new Intent (Intent.ACTION_SEND);
+            Intent myIntent = new Intent(Intent.ACTION_SEND);
             myIntent.setType("image/*");
             String shareBody = printMission();
             myIntent.putExtra(Intent.EXTRA_SUBJECT, "Missions");
@@ -169,8 +208,27 @@ public class MainActivity extends AppCompatActivity implements DialogCloseListen
             Intent intent = new Intent(this, RecycleBin.class);
             startActivity(intent);
         }
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                // Call the closeDrawer() method to close the drawer
+                drawerLayout.closeDrawer(navigationView);
+            }
+        }, 400);
         return true;
     }
+
+    public void addNewItem(){
+        Intent intent = getIntent();
+        ToDoModel task = new ToDoModel();
+        task.setTask(intent.getExtras().getString("task"));
+        task.setStatus(intent.getExtras().getInt("status"));
+        db.insertTask(task);
+        this.taskList = db.getAllTasks();
+        Collections.reverse(this.taskList);
+        tasksAdapter.setTasks(taskList);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -243,4 +301,5 @@ public class MainActivity extends AppCompatActivity implements DialogCloseListen
                         .build()
         );
     }
+
 }
