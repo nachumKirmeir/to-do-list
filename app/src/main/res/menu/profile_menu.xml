@@ -4,7 +4,7 @@
 
     <item
         android:title="@string/return_home_page"
-        android:icon="@drawable/ic_baseline_keyboard_return_24"
+        android:icon="@drawable/ic_baseline_home"
         android:id="@+id/returnHomePage"
         app:showAsAction="always"
         />
