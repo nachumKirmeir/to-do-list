@@ -3,6 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:title="@string/home"
+        android:icon="@drawable/ic_baseline_home"
+        android:id="@+id/home"
+        />
+    <item
         android:title="@string/profile"
         android:id="@+id/profile"
         android:icon="@drawable/ic_baseline_assignment_ind_24"

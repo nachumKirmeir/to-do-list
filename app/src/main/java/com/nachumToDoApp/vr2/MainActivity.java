@@ -208,13 +208,16 @@ public class MainActivity extends AppCompatActivity implements DialogCloseListen
             Intent intent = new Intent(this, RecycleBin.class);
             startActivity(intent);
         }
+        else if (item.getItemId() == R.id.home){
+            drawerLayout.closeDrawer(navigationView);
+        }
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 // Call the closeDrawer() method to close the drawer
                 drawerLayout.closeDrawer(navigationView);
             }
-        }, 400);
+        }, 500);
         return true;
     }
 
