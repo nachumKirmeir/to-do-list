@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.nachumToDoApp.vr2">
+
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,25 +13,32 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <receiver
+            android:name=".NotificationReceiver"
+            android:enabled="true"
+            android:exported="true"></receiver>
+
         <service
-            android:name="com.nachumToDoApp.vr2.ServiceNotification"
+            android:name=".ServiceNotification"
             android:enabled="true"
             android:exported="true" />
 
         <activity
-            android:name="com.nachumToDoApp.vr2.RecycleBin"
+            android:name=".RecycleBin"
             android:exported="false" />
         <activity
-            android:name="com.nachumToDoApp.vr2.ProfileActivity"
+            android:name=".ProfileActivity"
             android:exported="false" />
-        <activity android:name="com.nachumToDoApp.vr2.SplashActivity"
+        <activity
+            android:name=".SplashActivity"
             android:exported="true">
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />
+
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
-        <activity android:name="com.nachumToDoApp.vr2.MainActivity" />
+        <activity android:name=".MainActivity" />
     </application>
 
 </manifest>

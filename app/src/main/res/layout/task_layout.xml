@@ -20,6 +20,16 @@
             android:layout_height="wrap_content"
             android:buttonTint="@android:color/holo_green_dark"
             tools:text="Go to the market and bring vegetables immediately today." />
+        <Button
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:textStyle="bold"
+            android:text="Set Timer"
+            android:textSize="12sp"
+            android:id="@+id/btnTimer"
+            android:background="@drawable/my_button_main_background"
+            />
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>

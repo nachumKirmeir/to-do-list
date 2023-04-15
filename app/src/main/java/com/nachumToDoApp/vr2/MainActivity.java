@@ -114,7 +114,6 @@ public class MainActivity extends AppCompatActivity implements DialogCloseListen
         tasksRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         tasksAdapter = new MissionToDoAdapter(db,MainActivity.this);
         tasksRecyclerView.setAdapter(tasksAdapter);
-
         taskList = db.getAllTasks();
         //i reverse the list so that the tasks will be from newest to oldest
         //i can had to the menu couple ways to sort the tasks
@@ -140,7 +139,6 @@ public class MainActivity extends AppCompatActivity implements DialogCloseListen
         }
         setDataUser();
     }
-
     //this function will set the search menu
     public void setSearchMenuOnNavigation(){
         Menu menuView = navigationView.getMenu();

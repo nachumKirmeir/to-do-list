@@ -14,10 +14,12 @@
         <entry key="app/src/main/res/drawable/ic_baseline_keyboard_return_24.xml" value="0.2135" />
         <entry key="app/src/main/res/drawable/ic_baseline_menu_24.xml" value="0.2135" />
         <entry key="app/src/main/res/drawable/ic_baseline_search_24.xml" value="0.24" />
+        <entry key="app/src/main/res/drawable/ic_baseline_timer_24.xml" value="0.2865" />
         <entry key="app/src/main/res/drawable/ic_heart.xml" value="0.2135" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.1045" />
         <entry key="app/src/main/res/drawable/main_background.xml" value="0.2065" />
         <entry key="app/src/main/res/drawable/my_button_background.xml" value="0.2325" />
+        <entry key="app/src/main/res/drawable/my_button_main_background.xml" value="0.2865" />
         <entry key="app/src/main/res/drawable/qqqqq123123.xml" value="0.2065" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.335" />
         <entry key="app/src/main/res/layout/activity_profile.xml" value="0.33413461538461536" />
