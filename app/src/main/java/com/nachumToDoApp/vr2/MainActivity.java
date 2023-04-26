@@ -10,6 +10,9 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -18,15 +21,19 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.provider.MediaStore;
 import android.text.InputType;
 import android.util.Base64;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,6 +46,7 @@ import com.nachumToDoApp.vr2.Model.ToDoModel;
 import com.nachumToDoApp.vr2.Utils.MissionDatabaseHandler;
 
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
@@ -72,6 +80,7 @@ public class MainActivity extends AppCompatActivity implements DialogCloseListen
     private DrawerLayout drawerLayout;
     private ImageView imageMenu;
     private NavigationView navigationView;
+    private CountDownTimer currentTimer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,7 +147,57 @@ public class MainActivity extends AppCompatActivity implements DialogCloseListen
             addNewItem();
         }
         setDataUser();
+
+
+        SharedPreferences sp1 = getSharedPreferences("timer", 0);
+        String str = sp1.getString("alarm", "0");
+        if(str.equals("true")){
+            setProgressBarAndTextViewTimer(sp1.getString("taskMessage", ""), Long.valueOf(sp1.getString("triggerTime", "0")), Integer.valueOf(sp1.getString("seconds", "0")));
+        }
     }
+
+
+
+    public void setProgressBarAndTextViewTimer(final String taskMessage, long triggerTime, final int seconds){
+
+
+        final TextView textView = findViewById(R.id.taskTimer);
+        textView.setVisibility(View.VISIBLE);
+        
+        final ProgressBar progressBar = findViewById(R.id.progressBar);
+        progressBar.setMax(seconds);
+        progressBar.setProgress(0);
+        progressBar.setVisibility(View.VISIBLE);
+
+        Calendar calendar = Calendar.getInstance();
+        int hour = calendar.get(Calendar.HOUR_OF_DAY); // Get the hour in 24-hour format
+        int minute = calendar.get(Calendar.MINUTE);
+        int seconds1 = calendar.get(Calendar.SECOND);
+        long untilTrigger = triggerTime - hour*60*60 - minute*60 - seconds1;
+
+        currentTimer = new CountDownTimer(untilTrigger * 1000, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                int remainingSeconds = (int) millisUntilFinished / 1000;
+                progressBar.setProgress(seconds - remainingSeconds);
+                textView.setText(timeByFormat(remainingSeconds, taskMessage));
+            }
+
+            @Override
+            public void onFinish() {
+                progressBar.setVisibility(View.GONE);
+                textView.setVisibility(View.GONE);
+                rain();
+            }
+        };
+        currentTimer.start();
+    }
+
+    public void closeTimer(){
+        if(currentTimer != null) currentTimer.cancel();
+    }
+
+
     //this function will set the search menu
     public void setSearchMenuOnNavigation(){
         Menu menuView = navigationView.getMenu();
@@ -209,6 +268,10 @@ public class MainActivity extends AppCompatActivity implements DialogCloseListen
         else if (item.getItemId() == R.id.home){
             drawerLayout.closeDrawer(navigationView);
         }
+        else if(item.getItemId() == R.id.info){
+            Intent intent = new Intent(this, HelpCenter.class);
+            startActivity(intent);
+        }
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -273,6 +336,24 @@ public class MainActivity extends AppCompatActivity implements DialogCloseListen
             byte[] imageAsBytes = Base64.decode(encoded.getBytes(), Base64.DEFAULT);
             imageUser = BitmapFactory.decodeByteArray(imageAsBytes, 0, imageAsBytes.length);
         }
+    }
+    //this function get the time until the end of the timer in second and return it format of hour min and sec
+    public String timeByFormat(int remainingSeconds, String taskMessage){
+        String hour = remainingSeconds/3600 + "";
+        remainingSeconds -= Integer.parseInt(hour) *3600;
+        String min = remainingSeconds/60 + "";
+        remainingSeconds -= Integer.parseInt(min) * 60;
+        String seconds = remainingSeconds + "";
+        if(Integer.parseInt(hour) < 10){
+            hour  = "0" + hour;
+        }
+        if(Integer.parseInt(min) < 10){
+            min  = "0" + min;
+        }
+        if(Integer.parseInt(seconds) < 10){
+            seconds  = "0" + seconds;
+        }
+        return "Task: " + taskMessage + " | Time: " + hour + " : " + min + " : " + seconds;
     }
     public void setKonfettiView() {
         konfettiView = findViewById(R.id.konfettiView);

@@ -28,4 +28,10 @@
         android:icon="@drawable/ic_baseline_search_24"
         android:title="@string/search"
         />
+    <item
+        android:title="@string/help_center"
+        android:icon="@drawable/ic_baseline_info_24"
+        android:id="@+id/info"
+        />
+
 </menu>

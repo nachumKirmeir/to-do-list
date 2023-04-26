@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/main_background"
+    tools:context=".HelpCenter">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/main_background"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="30sp"
+                android:text="Help Center"
+                android:textColor="#000"
+                android:layout_margin="10dp"
+                android:textStyle="bold"
+                />
+            <TextView
+                android:id="@+id/contact_info_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Contact us at:\nPhone number: 0506522233\nEmail: nachumkirmeir@gmail.com"
+                android:gravity="center"
+                android:textSize="18sp"
+                android:visibility="gone" />
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Contact Us"
+                android:layout_margin="20dp"
+                android:background="@drawable/my_button_background"
+                android:id="@+id/btnContact"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:text="Updating Items"
+                android:textColor="#000"
+                android:layout_margin="10dp"
+                android:textStyle="bold"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:text="To mark the task as complete:"
+                android:textColor="#000"
+                android:layout_margin="10dp"
+                />
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:src="@drawable/mark_task"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:text="To edit an item swipe it to the right:"
+                android:textColor="#000"
+                android:layout_margin="10dp"
+                />
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:src="@drawable/edit_image"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:text="To delete an item swipe it to the left:"
+                android:textColor="#000"
+                android:layout_margin="10dp"
+                />
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:src="@drawable/remove_item"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:text="Set Timer"
+                android:textColor="#000"
+                android:layout_margin="10dp"
+                android:textStyle="bold"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:text="To set a timer click on the set timer button on the task you want to start working and then choose the amount time you want to work:"
+                android:textColor="#000"
+                android:layout_margin="10dp"
+                />
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:src="@drawable/set_time"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:text="You can always see the remained time in the top of the screen"
+                android:textColor="#000"
+                android:layout_margin="10dp"
+                />
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:src="@drawable/time_until_finish"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:text="Recycle Bin"
+                android:textColor="#000"
+                android:layout_margin="10dp"
+                android:textStyle="bold"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:text="If you want to return an item that you removed click on the recycle bin icon:"
+                android:textColor="#000"
+                android:layout_margin="10dp"
+                />
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:src="@drawable/recycle_bin"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:text="Swipe to the right to return the item to the main list and swipe to left to delete the item forever"
+                android:textColor="#000"
+                android:layout_margin="10dp"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:text="Profile"
+                android:textColor="#000"
+                android:layout_margin="10dp"
+                android:textStyle="bold"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:text="If you want to change the info and the image on your profile open the drawer and click the profile icon:"
+                android:textColor="#000"
+                android:layout_margin="10dp"
+                />
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:src="@drawable/profile_img"
+                />
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

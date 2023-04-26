@@ -7,6 +7,7 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.util.Log;
 import android.widget.Toast;
@@ -18,16 +19,17 @@ public class NotificationReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        int position = intent.getIntExtra("position", -1);
-        String task = intent.getStringExtra("taskMessage");
-        if (position != -1) {
-            // Show notification for the timer at the given position
-            showNotification(context, position + 1, task);
-        }
+        SharedPreferences sp = context.getSharedPreferences("timer", 0);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString("alarm", "false");
+        String position = sp.getString("position", "0");
+        String task = sp.getString("taskMessage", "");
+        editor.apply();
+        // Show notification for the timer at the given position
+        showNotification(context, Integer.valueOf(position) + 1, task);
     }
 
     private void showNotification(Context context, int position, String task) {
-
         int icon = (int)R.drawable.ic_baseline_timer_24;
         String title = "Timer finished";
         long when = System.currentTimeMillis();

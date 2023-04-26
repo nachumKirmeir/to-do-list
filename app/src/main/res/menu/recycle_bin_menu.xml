@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:title="@string/return_home_page"
+        android:icon="@drawable/ic_baseline_home"
+        android:id="@+id/returnHomePage"
+        app:showAsAction="ifRoom"
+        />
+    <item
+        android:title="@string/clean_all"
+        android:id="@+id/cleanAll"
+        app:showAsAction="always"
+        />
+</menu>
