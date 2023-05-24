@@ -37,6 +37,8 @@ public class ServiceNotification extends Service {
         // TODO: Return the communication channel to the service.
         throw new UnsupportedOperationException("Not yet implemented");
     }
+
+    //create the notification
     public Notification getNotification(){
         int icon = (int)R.drawable.ic_baseline_delete;
         String title = "You Deleted An Item";
@@ -65,6 +67,7 @@ public class ServiceNotification extends Service {
         notificationManager.notify(1, notification);
         return notification;
     }
+    //this class help to control the amount of time that the massage upper
     public class FirstThread extends Thread
     {
         @Override

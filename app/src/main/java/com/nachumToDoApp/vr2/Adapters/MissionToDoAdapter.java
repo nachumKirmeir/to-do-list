@@ -1,13 +1,11 @@
 package com.nachumToDoApp.vr2.Adapters;
 
-import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.SystemClock;
@@ -29,7 +27,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.nachumToDoApp.vr2.AddNewTaskFragment;
 import com.nachumToDoApp.vr2.MainActivity;
-import com.nachumToDoApp.vr2.Model.ToDoModel;
+import com.nachumToDoApp.vr2.Mission.ToDoModel;
 import com.nachumToDoApp.vr2.NotificationReceiver;
 import com.nachumToDoApp.vr2.ServiceNotification;
 import com.nachumToDoApp.vr2.R;
@@ -43,9 +41,11 @@ import java.util.List;
 
 public class MissionToDoAdapter extends RecyclerView.Adapter<MissionToDoAdapter.ViewHolder> implements Filterable {
 
-    private List<ToDoModel> todoList;
-    private MissionDatabaseHandler db;
-    private MainActivity activity;
+
+    private List<ToDoModel> todoList;//רשימה של המשימות
+    private MissionDatabaseHandler db;//גישה לבסיס הנתונים
+    private MainActivity activity;//המחלקה הראשית
+    //the timer after that the user start timer
     private CountDownTimer currentTimer;
 
 
@@ -88,12 +88,14 @@ public class MissionToDoAdapter extends RecyclerView.Adapter<MissionToDoAdapter.
         return activity;
     }
 
+    //update the adapter
     public void setTasks(List<ToDoModel> todoList) {
         this.todoList = todoList;
         //this line make the problem
         this.notifyDataSetChanged();
     }
 
+    //remove item from the list and from the database
     public void deleteItem(int position) {
         ToDoModel item = todoList.get(position);
         db.deleteTask(item.getId());
@@ -104,6 +106,7 @@ public class MissionToDoAdapter extends RecyclerView.Adapter<MissionToDoAdapter.
         activity.moveItemToRecycleBin(item);
     }
 
+    //edit the item, open the AddNewTaskFragment that unable the user to edit
     public void editItem(int position) {
         ToDoModel item = todoList.get(position);
         Bundle bundle = new Bundle();
@@ -113,43 +116,38 @@ public class MissionToDoAdapter extends RecyclerView.Adapter<MissionToDoAdapter.
         fragment.setArguments(bundle);
         fragment.show(activity.getSupportFragmentManager(), AddNewTaskFragment.TAG);
     }
-    public void update(){
-        db.openDatabase();
-        this.todoList = db.getAllTasks();
-        Collections.reverse(this.todoList);
-        notifyDataSetChanged();
-    }
     public class ViewHolder extends RecyclerView.ViewHolder{
         CheckBox task;
         int position;
         int realPosition;
-        Button button;
+        Button btnTimer;
 
         ViewHolder(final View view) {
             super(view);
             position = -1;
             task = view.findViewById(R.id.todoCheckBox);
-            button = view.findViewById(R.id.btnTimer);
+            btnTimer = view.findViewById(R.id.btnTimer);
             
             task.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                     if(position != -1){
                         ToDoModel item = todoList.get(position);
-                        if (b) {
+                        if (b) {//המשימה בוצעה
                             db.updateStatus(item.getId(), 1);
                             activity.rain();
-                            button.setVisibility(View.GONE);
+                            btnTimer.setVisibility(View.GONE);
                             item.setStatus(1);
                         } else {
                             db.updateStatus(item.getId(), 0);
-                            button.setVisibility(View.VISIBLE);
+                            btnTimer.setVisibility(View.VISIBLE);
                             item.setStatus(0);
                         }
                     }
                 }
             });
-            button.setOnClickListener(new View.OnClickListener() {
+            //when the user want to start timer
+            btnTimer.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     showTimerDialog(realPosition);
@@ -164,12 +162,14 @@ public class MissionToDoAdapter extends RecyclerView.Adapter<MissionToDoAdapter.
                         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                             // calculate timer duration in milliseconds
                             long timerDuration = ((hourOfDay * 60L) + minute) * 60 * 1000;
-                            // store timer data in data structure
+                            // sent the function scheduleNotification the time to sent the message
                             scheduleNotification(new TimerData(position, timerDuration));
                         }
                     }, 0, 0, true);
             timePickerDialog.show();
         }
+
+        //this function will get time, and send message at that time and show the user the progress
         public void scheduleNotification(TimerData timerData) {
 
             activity.closeTimer();
@@ -180,11 +180,13 @@ public class MissionToDoAdapter extends RecyclerView.Adapter<MissionToDoAdapter.
             long durationInMillis = timerData.getDuration();
             final int seconds = (int) (durationInMillis / 1000);
 
+            //this calculate the trigger time
             Calendar calendar = Calendar.getInstance();
             int hour = calendar.get(Calendar.HOUR_OF_DAY); // Get the hour in 24-hour format
             int minute = calendar.get(Calendar.MINUTE);
             int secondCalendar = calendar.get(Calendar.SECOND);
             int triggerTime1 = hour * 3600 + minute*60 + seconds + secondCalendar;
+
             Intent intent = new Intent(getContext(), NotificationReceiver.class);
             SharedPreferences sp = getContext().getSharedPreferences("timer", 0);
             SharedPreferences.Editor editor = sp.edit();
@@ -214,6 +216,7 @@ public class MissionToDoAdapter extends RecyclerView.Adapter<MissionToDoAdapter.
             progressBar.setVisibility(View.VISIBLE);
 
 
+            //this will update the time in the main activity layout
             currentTimer = new CountDownTimer(seconds * 1000L, 1000) {
                 @Override
                 public void onTick(long millisUntilFinished) {
@@ -240,10 +243,12 @@ public class MissionToDoAdapter extends RecyclerView.Adapter<MissionToDoAdapter.
             this.realPosition = position;
         }
         public void setRemoveTimer() {
-            button.setVisibility(View.GONE);
+            btnTimer.setVisibility(View.GONE);
         }
-        public void addTimerButton(){button.setVisibility(View.VISIBLE);}
+        public void addTimerButton(){
+            btnTimer.setVisibility(View.VISIBLE);}
     }
+    //this function enable the user to search an item
     @Override
     public Filter getFilter() {
         return exampleFilter;

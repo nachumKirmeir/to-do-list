@@ -17,14 +17,15 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.nachumToDoApp.vr2.Adapters.RecycleBinAdapter;
-import com.nachumToDoApp.vr2.Model.ToDoModel;
+import com.nachumToDoApp.vr2.Mission.ToDoModel;
 
 import java.util.List;
 
 public class RecyclerItemTouchHelperRecycleBin extends ItemTouchHelper.SimpleCallback{
-    private RecycleBinAdapter adapter;
-    private List<ToDoModel> taskList;
-    private Activity activity;
+    private final RecycleBinAdapter adapter;
+    private final List<ToDoModel> taskList;
+    //the main activity
+    private final Activity activity;
     public RecyclerItemTouchHelperRecycleBin(RecycleBinAdapter adapter, List<ToDoModel> taskList, Activity activity) {
         super(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
         this.adapter = adapter;
@@ -35,6 +36,7 @@ public class RecyclerItemTouchHelperRecycleBin extends ItemTouchHelper.SimpleCal
     public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
         return false;
     }
+    //on the user swipe the RecyclerView this function will trigger
     @Override
     public void onSwiped(@NonNull final RecyclerView.ViewHolder viewHolder, int direction) {
         final int position = viewHolder.getAdapterPosition();
@@ -63,6 +65,7 @@ public class RecyclerItemTouchHelperRecycleBin extends ItemTouchHelper.SimpleCal
         }
         //swipe right
         else {
+            //this code will return the task to  the main list
             builder.setTitle("Return Task");
             builder.setMessage("Are You Sure You Want To Return Task To The Main List?");
             builder.setCancelable(false);
@@ -91,6 +94,7 @@ public class RecyclerItemTouchHelperRecycleBin extends ItemTouchHelper.SimpleCal
             dialog.show();
         }
     }
+    //this function will display under the recyclerView icons and put color when the item is swipe
     @Override
     public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
         super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);

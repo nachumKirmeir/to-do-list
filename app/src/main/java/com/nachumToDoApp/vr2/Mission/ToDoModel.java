@@ -1,7 +1,12 @@
-package com.nachumToDoApp.vr2.Model;
+package com.nachumToDoApp.vr2.Mission;
 
 public class ToDoModel {
-    private int id, status;
+
+    //the id of the task
+    private int id;
+    //the status of the task 1 for complete and 0 for not complete
+    private int status;
+    //the content of the task
     private String task;
 
     public int getId() {

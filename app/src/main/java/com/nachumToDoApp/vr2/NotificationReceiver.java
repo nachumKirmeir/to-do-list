@@ -19,9 +19,9 @@ public class NotificationReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        SharedPreferences sp = context.getSharedPreferences("timer", 0);
+        SharedPreferences sp = context.getSharedPreferences("timer", 0);//הקובץ של הטיימר
         SharedPreferences.Editor editor = sp.edit();
-        editor.putString("alarm", "false");
+        editor.putString("alarm", "false");//מעדכן שהטיימר הסתיים ולכן המחלקה הראשית לר צריכה להציג את הפס התקדמות יותר
         String position = sp.getString("position", "0");
         String task = sp.getString("taskMessage", "");
         editor.apply();
@@ -29,15 +29,16 @@ public class NotificationReceiver extends BroadcastReceiver {
         showNotification(context, Integer.valueOf(position) + 1, task);
     }
 
+    //this function create a notification and sand it;
     private void showNotification(Context context, int position, String task) {
-        int icon = (int)R.drawable.ic_baseline_timer_24;
-        String title = "Timer finished";
+        int icon = (int)R.drawable.ic_baseline_timer_24;//the icon in the message
+        String title = "Timer finished";//the text
         long when = System.currentTimeMillis();
         String ticker = "ticker";
         String text= "Task #" + position + " has finished its timer";
         if(task != null) text = "Task: " + task + "  #" + position + " has finished its timer";
 
-        Intent intent = new Intent(context, MainActivity.class);
+        Intent intent = new Intent(context, MainActivity.class);//if the user click the message he will arrive to the main screen
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE);
 
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -50,7 +51,6 @@ public class NotificationReceiver extends BroadcastReceiver {
             notificationManager.createNotificationChannel(channel);
             builder.setChannelId(channelId);
         }
-
 
         Notification notification = builder.setContentIntent(pendingIntent).setSmallIcon(icon).setTicker(ticker).setWhen(when)
                 .setAutoCancel(true).setContentTitle(title)

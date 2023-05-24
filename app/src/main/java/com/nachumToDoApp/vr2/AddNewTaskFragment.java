@@ -20,7 +20,7 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
-import com.nachumToDoApp.vr2.Model.ToDoModel;
+import com.nachumToDoApp.vr2.Mission.ToDoModel;
 import com.nachumToDoApp.vr2.Utils.MissionDatabaseHandler;
 
 import java.util.Objects;
@@ -28,10 +28,10 @@ import java.util.Objects;
 public class AddNewTaskFragment extends BottomSheetDialogFragment {
 
     public static final String TAG = "ActionBottomDialog";
-    private EditText newTaskText;
-    private Button newTaskSaveButton;
 
-    private MissionDatabaseHandler db;
+    private EditText newTaskText;//תיבת הטקסט באקטיביטי שמאפשר לערוך את הטקסט של המשימה
+    private Button newTaskSaveButton;//הכפתור מאפשר לשמור את השינויים וליצור משימה
+    private MissionDatabaseHandler db;//גישה לבסיס הנתונים
 
     public static AddNewTaskFragment newInstance(){
         return new AddNewTaskFragment();
@@ -45,7 +45,7 @@ public class AddNewTaskFragment extends BottomSheetDialogFragment {
 
     @Nullable
     @Override
-    //create the dialog fragment in the main screen
+    //create the fragment in the main screen
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.new_task, container, false);
@@ -62,6 +62,7 @@ public class AddNewTaskFragment extends BottomSheetDialogFragment {
         boolean isTheCallUpdate = false;
 
         final Bundle bundle = getArguments();
+        //אם המשימה היא במצב של ערכיה אז נשליחו ערכים קודמים
         if(bundle != null){
             isTheCallUpdate = true;
             String task = bundle.getString("task");
@@ -80,6 +81,7 @@ public class AddNewTaskFragment extends BottomSheetDialogFragment {
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
 
+            //listen to the changed text
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if(s.toString().equals("")){
@@ -98,17 +100,19 @@ public class AddNewTaskFragment extends BottomSheetDialogFragment {
         });
 
         final boolean finalIsUpdate = isTheCallUpdate;
+        //when the user click on the save button the data will be saved
         newTaskSaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String text = newTaskText.getText().toString();
                 if(finalIsUpdate){
-                    db.updateTask(bundle.getInt("id"), text);
+                    db.updateTask(bundle.getInt("id"), text);//ישנה בבסיס הנתונים את הטקסט של המשימה
                 }
                 else if(text.equals("")) {
                     dismiss();
                 }
                 else {
+                    //יוסיף את המשימה החדשה
                     ToDoModel task = new ToDoModel();
                     task.setTask(text);
                     task.setStatus(0);
@@ -125,7 +129,7 @@ public class AddNewTaskFragment extends BottomSheetDialogFragment {
         if (fragment != null) {
             getFragmentManager().beginTransaction().remove(fragment).commit();
         }
-
+        //פעולה זה תגרום שלאחר סיום אקטיביטי זה הmain activity יעדכן את השינויים
         Activity activity = getActivity();
         if(activity instanceof DialogCloseListener)
             ((DialogCloseListener)activity).handleDialogClose();

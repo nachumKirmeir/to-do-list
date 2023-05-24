@@ -19,6 +19,7 @@ public class HelpCenter extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_help_center);
 
+        //the text view in the layout will show the phone number when the button is clicked
         final TextView textView = findViewById(R.id.contact_info_tv);
         final Button button = findViewById(R.id.btnContact);
         button.setOnClickListener(new View.OnClickListener() {
@@ -29,6 +30,7 @@ public class HelpCenter extends AppCompatActivity {
             }
         });
     }
+    //create the menu
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.profile_menu, menu);

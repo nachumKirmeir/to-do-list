@@ -22,9 +22,9 @@
         <entry key="app/src/main/res/drawable/my_button_main_background.xml" value="0.2865" />
         <entry key="app/src/main/res/drawable/qqqqq123123.xml" value="0.2065" />
         <entry key="app/src/main/res/layout/activity_help_center.xml" value="0.22385528547201808" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_profile.xml" value="0.33413461538461536" />
-        <entry key="app/src/main/res/layout/activity_recycle_bin.xml" value="0.39166666666666666" />
+        <entry key="app/src/main/res/layout/activity_recycle_bin.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_splash.xml" value="0.39166666666666666" />
         <entry key="app/src/main/res/layout/dropdown_menu.xml" value="0.39166666666666666" />
         <entry key="app/src/main/res/layout/header.xml" value="0.39166666666666666" />

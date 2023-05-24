@@ -17,7 +17,7 @@ import com.nachumToDoApp.vr2.Adapters.MissionToDoAdapter;
 
 public class RecyclerItemTouchHelperMainList extends ItemTouchHelper.SimpleCallback {
 
-    private MissionToDoAdapter adapter;
+    private final MissionToDoAdapter adapter;
 
     public RecyclerItemTouchHelperMainList(MissionToDoAdapter adapter) {
         super(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
@@ -30,11 +30,12 @@ public class RecyclerItemTouchHelperMainList extends ItemTouchHelper.SimpleCallb
         return false;
     }
 
+    //on the user swipe the RecyclerView this function will trigger
     @Override
     public void onSwiped(@NonNull final RecyclerView.ViewHolder viewHolder, int direction) {
         final int position = viewHolder.getAdapterPosition();
-        if (direction == ItemTouchHelper.LEFT) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(adapter.getContext());
+        if (direction == ItemTouchHelper.LEFT) {//המשתמש רוצה למחוק את המשימה
+            AlertDialog.Builder builder = new AlertDialog.Builder(adapter.getContext());//בניית דיאלוד לשאול את המשתמש אם הוא בטוח רוצה למחוק את המשימה
             builder.setTitle("Delete Task");
             builder.setMessage("Are you sure you want to delete this Task?");
             builder.setCancelable(false);
@@ -53,11 +54,12 @@ public class RecyclerItemTouchHelperMainList extends ItemTouchHelper.SimpleCallb
             });
             AlertDialog dialog = builder.create();
             dialog.show();
-        } else {
+        } else {//רוצה לערוך
             adapter.editItem(position);
         }
     }
 
+    //כאשר המשתמש גורר את המשימה פעולה זו תצבע את הרקע מתחת למימה ותציב איקון של מחיקה או של עריכה
     @Override
     public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
             super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);

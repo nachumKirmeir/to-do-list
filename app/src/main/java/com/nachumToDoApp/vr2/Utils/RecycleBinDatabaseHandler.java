@@ -6,7 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.nachumToDoApp.vr2.Model.ToDoModel;
+import com.nachumToDoApp.vr2.Mission.ToDoModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +44,7 @@ public class RecycleBinDatabaseHandler extends SQLiteOpenHelper {
         db = this.getWritableDatabase();
     }
 
+    //add new task to the dataBase
     public void insertTask(ToDoModel task){
         ContentValues cv = new ContentValues();
         cv.put(TASK, task.getTask());
@@ -51,6 +52,7 @@ public class RecycleBinDatabaseHandler extends SQLiteOpenHelper {
         db.insert(TODO_TABLE, null, cv);
     }
 
+    //this function return all the tasks in the data base
     public List<ToDoModel> getAllTasks(){
         List<ToDoModel> taskList = new ArrayList<>();
         Cursor cur = null;
@@ -79,18 +81,14 @@ public class RecycleBinDatabaseHandler extends SQLiteOpenHelper {
         return taskList;
     }
 
-    public void updateStatus(int id, int status){
-        ContentValues cv = new ContentValues();
-        cv.put(STATUS, status);
-        db.update(TODO_TABLE, cv, ID + "= ?", new String[] {String.valueOf(id)});
-    }
-
+    //update the task in the database
     public void updateTask(int id, String task) {
         ContentValues cv = new ContentValues();
         cv.put(TASK, task);
         db.update(TODO_TABLE, cv, ID + "= ?", new String[] {String.valueOf(id)});
     }
 
+    //delete the task with that id
     public void deleteTask(int id){
         db.delete(TODO_TABLE, ID + "= ?", new String[] {String.valueOf(id)});
     }

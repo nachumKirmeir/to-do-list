@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
@@ -27,9 +28,10 @@ import java.io.IOException;
 
 public class ProfileActivity extends AppCompatActivity implements View.OnClickListener {
 
-    SharedPreferences sp;//will save the changes in the user profile for next times
-    EditText etFirstName, etLastName, etEmail;
-    Button btnSave, btnTakePicture, btnTakePictureFromGallery;
+
+    SharedPreferences sp;//שומר את כל המידע על המשתמש בקובץ זה כולל את התמונה שלו
+    EditText etFirstName, etLastName, etEmail;//תיבות הערכיה של המשתמש
+    Button btnSave, btnTakePicture, btnTakePictureFromGallery;//הכפתורים לביצוע שמירה לקחית תמונה
     ImageView ivPicture;
     Bitmap bitmap;//for the picture
 
@@ -37,8 +39,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-
-
+        //אם כבר קיים מידע על המשתמש
         sp = getSharedPreferences("profile", 0);
         etFirstName = findViewById(R.id.etFirstName);
         etLastName = findViewById(R.id.etLastName);
@@ -51,6 +52,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         btnTakePicture.setOnClickListener(this);
         btnTakePictureFromGallery.setOnClickListener(this);
 
+        // get data to the sp
         String firstName = sp.getString("firstName", null);
         String lastName = sp.getString("lastName", null);
         String email = sp.getString("email", null);
@@ -63,6 +65,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
     }
 
+    @SuppressLint("StaticFieldLeak")
     @Override
     public void onClick(View view) {
         if(view == btnSave){
@@ -70,6 +73,13 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             //this code save the bitmap. the SharedPreferences cant get complex object like bitmap
             // so i convert this object to string
             if(bitmap != null){
+                // If the bitmap is null, just save the other data without compressing and encoding the image
+                SharedPreferences.Editor editor = sp.edit();
+                editor.putString("firstName", etFirstName.getText().toString());
+                editor.putString("lastName", etLastName.getText().toString());
+                editor.putString("email", etEmail.getText().toString());
+                editor.apply();
+
                 // Show a progress dialog to the user
                 final ProgressDialog progressDialog = ProgressDialog.show(this, "Saving", "Please wait...", true);
 
@@ -117,6 +127,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 // End the activity
                 endActivity();
             }
+
         }
         else if(view == btnTakePicture){
             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -127,6 +138,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             startActivityForResult(intent, 4);
         }
     }
+    //if the user want to tage photo
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == 5){
@@ -171,6 +183,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         setResult(RESULT_OK, resultIntent);
         finish();
     }
+    //this function convert the text to an image
     public void uploadedImage(){
         String encoded = sp.getString("picture", null);
         if(encoded != null) {

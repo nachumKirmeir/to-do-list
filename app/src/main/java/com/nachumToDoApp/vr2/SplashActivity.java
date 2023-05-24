@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
+//this class will shown when the user open the app in the first time
 public class SplashActivity extends AppCompatActivity {
 
     @Override
