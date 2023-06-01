@@ -253,11 +253,12 @@ public class MissionToDoAdapter extends RecyclerView.Adapter<MissionToDoAdapter.
     public Filter getFilter() {
         return exampleFilter;
     }
+
     private Filter exampleFilter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence charSequence) {
             ArrayList<ToDoModel> arrayListAfterSearch = new ArrayList<>();
-            ArrayList<ToDoModel> fullList = new ArrayList<ToDoModel>(db.getAllTasks());
+            ArrayList<ToDoModel> fullList = new ArrayList<>(db.getAllTasks());
             if(charSequence == null || charSequence.length() == 0)
                 arrayListAfterSearch.addAll(fullList);
             else {

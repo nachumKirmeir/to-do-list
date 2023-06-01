@@ -21,7 +21,7 @@ public class NotificationReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         SharedPreferences sp = context.getSharedPreferences("timer", 0);//הקובץ של הטיימר
         SharedPreferences.Editor editor = sp.edit();
-        editor.putString("alarm", "false");//מעדכן שהטיימר הסתיים ולכן המחלקה הראשית לר צריכה להציג את הפס התקדמות יותר
+        editor.putString("alarm", "false");//מעדכן שהטיימר הסתיים ולכן המחלקה הראשית לא צריכה להציג את הפס התקדמות יותר
         String position = sp.getString("position", "0");
         String task = sp.getString("taskMessage", "");
         editor.apply();

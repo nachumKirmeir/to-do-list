@@ -61,7 +61,6 @@ public class MainActivity extends AppCompatActivity implements DialogCloseListen
 
 
     private MissionDatabaseHandler db;//חיבור לבסיס הנתונים של המשימות
-
     private MissionToDoAdapter tasksAdapter;//אחראי לעדכון ותפעול של רשימת המשימות
     private List<ToDoModel> taskList;//רשימה של כל המשימות שהם אוביקט todolist
 
@@ -111,13 +110,9 @@ public class MainActivity extends AppCompatActivity implements DialogCloseListen
         navigationView = findViewById(R.id.navigationView);
         navigationView.setNavigationItemSelectedListener(this);
 
-
-
         //פותח את מסד הנתונים
         db = new MissionDatabaseHandler(this);
         db.openDatabase();
-
-
 
         RecyclerView tasksRecyclerView = findViewById(R.id.tasksRecyclerView);
         tasksRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -229,7 +224,7 @@ public class MainActivity extends AppCompatActivity implements DialogCloseListen
             }
         });
     }
-    //הפונקציה הזאת משנה את ההדר בראש מגרית הניווט להיות עם התמונה ושם המשתמש של הuser
+    //הפונקציה הזאת משנה את ההדר בראש מגרית הניווט להיות עם התמונה ושם המשתמש של המשתמש
     private void setNavigationViewProfile() {
         View headerView = navigationView.getHeaderView(0);
         if(imageUser != null){
